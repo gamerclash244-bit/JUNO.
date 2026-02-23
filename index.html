@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Audio Editor UI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+    <div class="panel">BARS <input type="number" value="100" class="number"></div>
+    <div class="panel time">0 : 0 : 0</div>
+    <div class="panel">Audio Edit</div>
+    <div class="panel">Add-on</div>
+</div>
+
+<!-- WAVEFORM -->
+<div class="waveform">
+    <canvas id="waveCanvas"></canvas>
+</div>
+
+<!-- CONTROLS -->
+<div class="controls">
+
+    <div class="left">
+        <button class="btn">✂</button>
+        <button class="btn">🔍</button>
+        <button class="btn">⟲</button>
+
+        <div class="tempo panel">
+            TEMPO <input type="number" value="120.00" step="0.01" class="number">
+        </div>
+
+        <button id="recBtn" class="rec">Rec</button>
+    </div>
+
+    <div class="center">
+        <button class="btn big">▶</button>
+        <button class="btn big">⏸</button>
+    </div>
+
+    <div class="right">
+        <div class="panel">LEVEL <input type="number" value="0" class="number small"></div>
+        <div class="panel">SEMI <input type="number" value="0" class="number small"></div>
+        <div class="panel">FINE <input type="number" value="0" class="number small"></div>
+        <button class="btn">WARP</button>
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

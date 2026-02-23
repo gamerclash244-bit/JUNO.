@@ -1,0 +1,105 @@
+body{
+    margin:0;
+    background:#000;
+    font-family:Arial, Helvetica, sans-serif;
+    color:white;
+}
+
+/* ===== TOP BAR ===== */
+.topbar{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    padding:15px;
+}
+
+.panel{
+    background:rgba(40,60,45,0.8);
+    padding:12px 25px;
+    border-radius:20px;
+    backdrop-filter:blur(10px);
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+/* ===== NUMBER INPUT ===== */
+.number{
+    background:#1e2c22;
+    border:none;
+    color:white;
+    padding:5px 10px;
+    border-radius:10px;
+    width:70px;
+    text-align:center;
+}
+
+.number.small{
+    width:50px;
+}
+
+.number:focus{
+    outline:none;
+}
+
+/* ===== WAVEFORM ===== */
+.waveform{
+    height:300px;
+    margin:10px 20px;
+    background:linear-gradient(#1f2f25,#16231c);
+    border-radius:20px;
+    overflow:hidden;
+}
+
+canvas{
+    width:100%;
+    height:100%;
+}
+
+/* ===== CONTROLS ===== */
+.controls{
+    display:flex;
+    justify-content:space-between;
+    padding:20px;
+}
+
+.left, .center, .right{
+    display:flex;
+    gap:15px;
+    align-items:center;
+}
+
+/* ===== BUTTONS ===== */
+.btn{
+    background:#2a3d30;
+    border:none;
+    padding:15px 20px;
+    border-radius:20px;
+    color:white;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.btn:hover{
+    background:#355f45; /* dark light green hover */
+}
+
+.big{
+    font-size:20px;
+}
+
+/* ===== REC BUTTON ===== */
+.rec{
+    background:red;
+    border:none;
+    padding:15px 25px;
+    border-radius:50px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.rec:hover{
+    background:#355f45;
+}
+
