@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap');
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Zen Dots', sans-serif;
+}
+
+body{
+  background:#060606;
+  color:white;
+  overflow-x:hidden;
+}
+
+/* Page Transition */
+.page-transition{
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:black;
+  z-index:2000;
+  animation:slideOut 1.5s forwards;
+}
+
+@keyframes slideOut{
+  0%{transform:translateY(0);}
+  100%{transform:translateY(-100%);}
+}
+
+/* Animated Mesh Background */
+.mesh-bg{
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:radial-gradient(circle at 30% 30%, #d4af3730, transparent 50%),
+             radial-gradient(circle at 70% 70%, #ffffff10, transparent 50%);
+  animation:moveMesh 12s ease-in-out infinite alternate;
+  z-index:-1;
+}
+
+@keyframes moveMesh{
+  0%{background-position:30% 30%, 70% 70%;}
+  100%{background-position:40% 40%, 60% 60%;}
+}
+
+header{
+  text-align:center;
+  padding-top:120px;
+}
+
+header h1{
+  font-size:3rem;
+}
+
+header p{
+  margin-top:20px;
+  opacity:0.7;
+}
+
+/* Fade in animation */
+.fade-in{
+  opacity:0;
+  transform:translateY(40px);
+  animation:fadeUp 1s forwards 1s;
+}
+
+.delay{
+  animation-delay:1.3s;
+}
+
+@keyframes fadeUp{
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* Download Cards */
+.downloads{
+  margin-top:80px;
+  display:flex;
+  justify-content:center;
+  gap:40px;
+  flex-wrap:wrap;
+  padding:40px;
+}
+
+.download-card{
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(212,175,55,0.2);
+  padding:40px;
+  border-radius:25px;
+  width:280px;
+  text-align:center;
+  transition:0.4s ease;
+}
+
+.download-card:hover{
+  transform:translateY(-15px) scale(1.03);
+  border-color:#d4af37;
+  box-shadow:0 0 40px #d4af3730;
+}
+
+/* Modern Button */
+.modern-btn{
+  margin-top:25px;
+  padding:14px 30px;
+  border:none;
+  border-radius:50px;
+  background:linear-gradient(90deg,#d4af37,#f5d76e);
+  cursor:pointer;
+  transition:0.3s;
+  font-size:14px;
+}
+
+.modern-btn:hover{
+  transform:scale(1.1);
+  box-shadow:0 0 20px #d4af37;
+}
+
+footer{
+  text-align:center;
+  margin-top:80px;
+  opacity:0.5;
+  padding-bottom:40px;
+}
+
+/* Responsive */
+@media(max-width:768px){
+  header h1{font-size:2rem;}
+}
+
