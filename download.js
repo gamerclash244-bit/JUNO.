@@ -14,3 +14,12 @@ buttons.forEach(btn => {
   });
 });
 
+
+
+function DownloadRelease() {
+  window.location.href="https://github.com/gamerclash244-bit/JUNO.1/releases/download/JUNO.1-UPDATE/JUNO.1.Firmware.Updater.Setup.3.0.0.exe"
+}
+
+function ShowMessages() {
+  alert("coming soon.now only available for windows");
+}
