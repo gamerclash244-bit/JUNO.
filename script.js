@@ -1,15 +1,23 @@
-// Scroll Reveal
-const reveals = document.querySelectorAll(".reveal");
-
-window.addEventListener("scroll", () => {
-  reveals.forEach(el => {
-    const windowHeight = window.innerHeight;
-    const elementTop = el.getBoundingClientRect().top;
-    if (elementTop < windowHeight - 100) {
-      el.classList.add("active");
+// theme toggle logic
+const themeToggle = document.getElementById('theme-toggle');
+if (themeToggle) {
+  themeToggle.addEventListener('click', function() {
+    document.body.classList.toggle('dark');
+    // save to localStorage for persistence
+    if(document.body.classList.contains('dark')) {
+      themeToggle.textContent = "☀️";
+      localStorage.setItem("theme", "dark");
+    } else {
+      themeToggle.textContent = "🌙";
+      localStorage.setItem("theme", "light");
     }
   });
-});
+  // on page load, respect saved theme
+  if(localStorage.getItem("theme") === "dark") {
+    document.body.classList.add("dark");
+    themeToggle.textContent = "☀️";
+  }
+}
 
 // Magnetic Button
 const btn = document.querySelector(".modern-btn");
