@@ -22,7 +22,7 @@ router.post('/login', async (req, res) => {
 
 // POST /api/admin/seed  — run once to create the admin account
 // Protected by a secret query param so random people can't call it
-router.post('/seed', async (req, res) => {
+router.get('/seed', async (req, res) => {
   try {
     if (req.query.secret !== process.env.JWT_SECRET) {
       return res.status(403).json({ error: 'Forbidden' });
