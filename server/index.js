@@ -2,28 +2,29 @@ require('dotenv').config();
 const express   = require('express');
 const mongoose  = require('mongoose');
 const cors      = require('cors');
-
+ 
 const app = express();
-
+ 
 // ── MIDDLEWARE ──────────────────────────────────────────
 app.use(cors({
   origin: [
     process.env.FRONTEND_URL || 'http://localhost:3000',
+    process.env.ADMIN_URL || 'http://localhost:3001',
     'http://localhost:5500',   // local dev
     'http://127.0.0.1:5500',
   ],
   credentials: true,
 }));
 app.use(express.json());
-
+ 
 // ── ROUTES ──────────────────────────────────────────────
 app.use('/api/admin',  require('./routes/auth'));
 app.use('/api/orders', require('./routes/orders'));
 app.use('/api/notify', require('./routes/notify'));
-
+ 
 // health check
 app.get('/api/health', (_, res) => res.json({ status: 'ok', time: new Date() }));
-
+ 
 // ── DB + START ──────────────────────────────────────────
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
@@ -35,3 +36,4 @@ mongoose.connect(process.env.MONGODB_URI)
     console.error('❌ MongoDB connection failed:', err.message);
     process.exit(1);
   });
+ 
