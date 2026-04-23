@@ -34,7 +34,7 @@
     a{color:inherit;text-decoration:none}
     ul{list-style:none}
     img{display:block;max-width:100%}
-
+ 
     /* ── NAV ──────────────────────────────────────── */
     nav{position:fixed;top:0;left:0;right:0;z-index:200;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 48px;background:rgba(8,8,8,.88);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--border);transition:background var(--t)}
     [data-theme="light"] nav{background:rgba(242,240,235,.9)}
@@ -50,7 +50,7 @@
     .lang-btn:hover:not(.active),.theme-btn:hover:not(.active){color:var(--txt)}
     .nav-shop{display:inline-flex;align-items:center;gap:6px;background:var(--amber);color:#000;font-size:.8rem;font-weight:700;padding:8px 18px;border-radius:40px;border:none;cursor:pointer;transition:all .25s;letter-spacing:.01em}
     .nav-shop:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(245,166,35,.45)}
-
+ 
     /* ── HERO ────────────────────────────────────── */
     .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:120px 48px 80px;text-align:center;position:relative;overflow:hidden}
     .hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse 70% 70% at 50% 50%,black 40%,transparent 100%);pointer-events:none}
@@ -64,27 +64,27 @@
     .hero-model{font-family:'Space Mono',monospace;font-size:clamp(.95rem,2.5vw,1.5rem);color:var(--muted);letter-spacing:.08em;margin-bottom:30px}
     .hero-sub{font-size:1.05rem;font-weight:300;color:var(--muted);max-width:490px;margin:0 auto 50px;line-height:1.65;position:relative}
     .hero-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center;position:relative}
-
+ 
     /* ── BUTTONS ──────────────────────────────────── */
     .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 30px;border-radius:50px;font-family:'Outfit',sans-serif;font-size:.92rem;font-weight:600;cursor:pointer;border:none;transition:all .25s;letter-spacing:.01em}
     .btn-primary{background:var(--amber);color:#000;box-shadow:0 4px 28px rgba(245,166,35,.3)}
     .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 40px rgba(245,166,35,.5)}
     .btn-outline{background:transparent;color:var(--txt);border:1px solid var(--border)}
     .btn-outline:hover{background:var(--s2);border-color:var(--bhi)}
-
+ 
     /* ── SPECS STRIP ──────────────────────────────── */
     .specs-strip{display:flex;align-items:stretch;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface);overflow-x:auto}
     .spec-tile{flex:1;min-width:130px;padding:26px 28px;border-right:1px solid var(--border);text-align:center}
     .spec-tile:last-child{border-right:none}
     .spec-val{font-family:'Space Mono',monospace;font-weight:700;font-size:1.45rem;color:var(--amber);letter-spacing:-.01em}
     .spec-lbl{font-size:.73rem;color:var(--muted);margin-top:4px;font-weight:500}
-
+ 
     /* ── SECTIONS ─────────────────────────────────── */
     section{padding:96px 48px}
     .sec-label{font-size:.7rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);margin-bottom:14px}
     .sec-h{font-family:'Space Mono',monospace;font-weight:700;font-size:clamp(1.8rem,3.5vw,2.8rem);letter-spacing:-.03em;line-height:1.1;margin-bottom:20px}
     .sec-b{color:var(--muted);font-weight:300;line-height:1.7;max-width:500px;margin-bottom:48px;font-size:1rem}
-
+ 
     /* ── PRODUCTS ─────────────────────────────────── */
     #products{background:var(--surface)}
     .products-inner{max-width:1120px;margin:0 auto}
@@ -114,7 +114,7 @@
     .price-note{font-size:.72rem;color:var(--dim);margin-top:3px}
     .price-tba{font-size:.95rem;color:var(--muted);font-weight:500}
     .btn-card{padding:11px 22px;border-radius:50px;font-size:.83rem;white-space:nowrap;flex-shrink:0}
-
+ 
     /* ── COMPAT ──────────────────────────────────── */
     #compatibility{background:var(--bg)}
     .compat-inner{max-width:880px;margin:0 auto}
@@ -122,7 +122,7 @@
     .chip{background:var(--surface);border:1px solid var(--border);border-radius:var(--rs);padding:13px 18px;display:flex;align-items:center;gap:10px;font-size:.87rem;font-weight:500;color:var(--muted);transition:border-color .25s,color .25s}
     .chip:hover{border-color:var(--bhi);color:var(--txt)}
     .chip-dot{width:6px;height:6px;border-radius:50%;background:var(--amber);flex-shrink:0}
-
+ 
     /* ── FEATURES ────────────────────────────────── */
     #features{background:var(--surface)}
     .feat-inner{max-width:1100px;margin:0 auto}
@@ -132,7 +132,7 @@
     .feat-icon{width:44px;height:44px;background:var(--amber-soft);border:1px solid rgba(245,166,35,.18);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;font-size:20px}
     .feat-title{font-family:'Space Mono',monospace;font-weight:700;font-size:.93rem;letter-spacing:-.01em;margin-bottom:10px}
     .feat-desc{font-size:.85rem;color:var(--muted);line-height:1.6}
-
+ 
     /* ── FIRMWARE ────────────────────────────────── */
     #firmware{background:var(--bg)}
     .firm-inner{max-width:680px;margin:0 auto;text-align:center}
@@ -144,12 +144,12 @@
     .dl-meta{font-size:.77rem;color:var(--muted)}
     .ver{display:inline-block;background:var(--amber-soft);border:1px solid rgba(245,166,35,.22);color:var(--amber);font-family:'Space Mono',monospace;font-size:.7rem;font-weight:700;padding:2px 9px;border-radius:4px;margin-left:7px}
     .dl-note{margin-top:16px;font-size:.75rem;color:var(--dim)}
-
+ 
     /* ── FOOTER ──────────────────────────────────── */
     footer{padding:38px 48px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;font-size:.79rem;color:var(--dim);flex-wrap:wrap;gap:14px}
     .foot-logo{font-family:'Space Mono',monospace;font-weight:700;font-size:.93rem;color:var(--txt)}
     .foot-logo span{color:var(--amber)}
-
+ 
     /* ── MODAL ───────────────────────────────────── */
     .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s}
     .modal-bg.open{opacity:1;pointer-events:all}
@@ -170,11 +170,11 @@
     .form-total-price{font-family:'Space Mono',monospace;font-weight:700;color:var(--amber);font-size:1.1rem}
     .form-err{color:#ef4444;font-size:.8rem;margin-top:8px}
     .form-ok{color:#22c55e;font-size:.88rem;text-align:center;padding:14px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:var(--rs)}
-
+ 
     /* ── TOAST ───────────────────────────────────── */
     .toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(120px);background:var(--amber);color:#000;padding:13px 26px;border-radius:50px;font-size:.87rem;font-weight:700;box-shadow:0 8px 36px rgba(245,166,35,.45);transition:transform .42s cubic-bezier(.34,1.56,.64,1);z-index:999;pointer-events:none}
     .toast.show{transform:translateX(-50%) translateY(0)}
-
+ 
     /* ── RESPONSIVE ───────────────────────────────── */
     @media(max-width:900px){
       nav{padding:0 20px}
@@ -195,7 +195,7 @@
   </style>
 </head>
 <body>
-
+ 
 <!-- NAV -->
 <nav>
   <div class="logo">JUNO<span>.</span></div>
@@ -217,7 +217,7 @@
     </button>
   </div>
 </nav>
-
+ 
 <!-- HERO -->
 <div class="hero">
   <div class="hero-grid"></div>
@@ -234,7 +234,7 @@
     <a href="#firmware" class="btn btn-outline" data-k="hero_cta2">Download Firmware</a>
   </div>
 </div>
-
+ 
 <!-- SPECS STRIP -->
 <div class="specs-strip">
   <div class="spec-tile"><div class="spec-val">USB</div><div class="spec-lbl" data-k="spec_conn">MIDI Connection</div></div>
@@ -243,7 +243,7 @@
   <div class="spec-tile"><div class="spec-val">MMC</div><div class="spec-lbl" data-k="spec_proto">MIDI Protocol</div></div>
   <div class="spec-tile"><div class="spec-val">TRS</div><div class="spec-lbl" data-k="spec_sw">Switch Type</div></div>
 </div>
-
+ 
 <!-- PRODUCTS -->
 <section id="products">
   <div class="products-inner">
@@ -253,7 +253,7 @@
       <p class="sec-b" data-k="products_body">Each Juno ships fully assembled and tested. Plug into your MPC and you're live in minutes.</p>
     </div>
     <div class="product-grid">
-
+ 
       <!-- JUNO.1 -->
       <div class="product-card flagship">
         <div class="card-top">
@@ -292,14 +292,18 @@
           </div>
           <div class="price-row">
             <div>
-              <div class="price">₹2,499</div>
-              <div class="price-note" data-k="free_ship">Free shipping · India</div>
+              <div style="display:flex;align-items:center;gap:10px">
+                <div style="font-family:'Space Mono',monospace;font-size:1rem;color:var(--muted);text-decoration:line-through;opacity:.6">₹9,999</div>
+                <div class="price">₹7,999</div>
+              </div>
+              <div class="price-note" style="margin-top:4px">⚡ ₹4,000 now · Balance after manufacture</div>
+              <div class="price-note" style="margin-top:2px">🛠 Made to order · Ships in 10–15 days · Free shipping</div>
             </div>
-            <button class="btn btn-primary btn-card" onclick="openOrder('juno1','JUNO.1',2499)" data-k="btn_order">Order Now</button>
+            <button class="btn btn-primary btn-card" onclick="openOrder('juno1','JUNO.1',4000)" data-k="btn_order">Order Now</button>
           </div>
         </div>
       </div>
-
+ 
       <!-- JUNO.2 -->
       <div class="product-card">
         <div class="card-top">
@@ -339,11 +343,11 @@
           </div>
         </div>
       </div>
-
+ 
     </div>
   </div>
 </section>
-
+ 
 <!-- COMPATIBILITY -->
 <section id="compatibility">
   <div class="compat-inner">
@@ -362,7 +366,7 @@
     </div>
   </div>
 </section>
-
+ 
 <!-- FEATURES -->
 <section id="features">
   <div class="feat-inner">
@@ -394,7 +398,7 @@
     </div>
   </div>
 </section>
-
+ 
 <!-- FIRMWARE -->
 <section id="firmware">
   <div class="firm-inner">
@@ -417,14 +421,14 @@
     <p class="dl-note" data-k="dl_note">Requires Arduino IDE 2.0+ and Teensyduino add-on installed on Windows.</p>
   </div>
 </section>
-
+ 
 <!-- FOOTER -->
 <footer>
   <div class="foot-logo">JUNO<span>.</span></div>
   <div data-k="footer_tag">Handcrafted footswitch controllers for MPC producers</div>
   <div>© 2025 Juno</div>
 </footer>
-
+ 
 <!-- ORDER MODAL -->
 <div class="modal-bg" id="orderModal">
   <div class="modal modal-wrap">
@@ -444,15 +448,19 @@
     <div class="field"><label data-k="lbl_pin">Pincode</label><input id="o_pin" type="text" placeholder="600001"/></div>
     <div class="field"><label data-k="lbl_notes">Notes (optional)</label><textarea id="o_notes" placeholder="Anything we should know?"></textarea></div>
     <div class="form-total">
-      <span data-k="total_lbl">Order Total</span>
-      <span class="form-total-price" id="orderTotal">₹2,499</span>
+      <span data-k="total_lbl">Down Payment (Pay Now)</span>
+      <span class="form-total-price" id="orderTotal">₹4,000</span>
+    </div>
+    <div style="background:var(--s2);border:1px solid var(--border);border-radius:var(--rs);padding:12px 18px;margin-bottom:16px;font-size:.82rem;color:var(--muted);line-height:1.6">
+      💡 <strong style="color:var(--txt)">How it works:</strong> Pay ₹4,000 now to confirm your order. The remaining <strong style="color:var(--amber)">₹3,999</strong> is collected after your unit is manufactured.<br>
+      🛠 <strong style="color:var(--txt)">Made to order</strong> — your Juno.1 is built after your order is placed. Estimated delivery: <strong style="color:var(--txt)">10–15 days</strong>.
     </div>
     <div class="form-err" id="orderErr"></div>
     <div class="form-ok" id="orderOk" style="display:none" data-k="order_ok">✓ Order placed! We'll contact you within 24 hours to confirm.</div>
     <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="submitOrder()" id="orderSubmitBtn" data-k="btn_confirm">Confirm Order</button>
   </div>
 </div>
-
+ 
 <!-- NOTIFY MODAL -->
 <div class="modal-bg" id="notifyModal">
   <div class="modal modal-wrap">
@@ -465,14 +473,15 @@
     <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px" onclick="submitNotify()" data-k="btn_signup">Sign Me Up</button>
   </div>
 </div>
-
+ 
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
-
+ 
 <script>
 // ─── CONFIG ─────────────────────────────────────────────────────────────────
 // Change this to your Render backend URL once deployed
-const API = 'https://juno-api-rxtk.onrender.com';
+const API = 'https://your-juno-api.onrender.com';
+ 
 // ─── TRANSLATIONS ─────────────────────────────────────────────────────────
 const T = {
   en: {
@@ -560,9 +569,9 @@ const T = {
     btn_signup:'ലിസ്റ്റിൽ ചേർക്കൂ',
   }
 };
-
+ 
 let lang = 'en';
-
+ 
 function setLang(l) {
   lang = l;
   document.getElementById('btn-en').classList.toggle('active', l === 'en');
@@ -572,7 +581,7 @@ function setLang(l) {
     if (v) el.textContent = v;
   });
 }
-
+ 
 // ─── THEME ───────────────────────────────────────────────────────────────────
 function setTheme(t) {
   document.documentElement.setAttribute('data-theme', t);
@@ -581,17 +590,17 @@ function setTheme(t) {
   localStorage.setItem('junoTheme', t);
 }
 setTheme(localStorage.getItem('junoTheme') || 'dark');
-
+ 
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
 function scrollTo(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
-
+ 
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3000);
 }
-
+ 
 function openModal(id) { document.getElementById(id).classList.add('open'); }
 function closeModal(id) {
   document.getElementById(id).classList.remove('open');
@@ -600,15 +609,15 @@ function closeModal(id) {
   document.getElementById('notifyErr').textContent = '';
   document.getElementById('notifyOk').style.display = 'none';
 }
-
+ 
 // close modal on backdrop click
 document.querySelectorAll('.modal-bg').forEach(bg => {
   bg.addEventListener('click', e => { if (e.target === bg) closeModal(bg.id); });
 });
-
+ 
 // ─── ORDER ───────────────────────────────────────────────────────────────────
 let currentOrder = {};
-
+ 
 function openOrder(product, name, price) {
   currentOrder = { product, productName: name, price, currency: 'INR' };
   document.getElementById('orderTitle').textContent = `Order ${name}`;
@@ -617,20 +626,20 @@ function openOrder(product, name, price) {
   document.getElementById('orderSubmitBtn').textContent = T[lang].btn_confirm;
   openModal('orderModal');
 }
-
+ 
 async function submitOrder() {
   const name  = document.getElementById('o_name').value.trim();
   const email = document.getElementById('o_email').value.trim();
   const err   = document.getElementById('orderErr');
-
+ 
   if (!name || !email) { err.textContent = lang === 'ml' ? 'പേരും ഇമെയിലും ആവശ്യമാണ്.' : 'Name and email are required.'; return; }
   if (!/\S+@\S+\.\S+/.test(email)) { err.textContent = lang === 'ml' ? 'സാധുവായ ഇമെയിൽ നൽകൂ.' : 'Please enter a valid email.'; return; }
-
+ 
   err.textContent = '';
   const btn = document.getElementById('orderSubmitBtn');
   btn.disabled = true;
   btn.textContent = '...';
-
+ 
   const body = {
     ...currentOrder,
     customer: {
@@ -643,7 +652,7 @@ async function submitOrder() {
     },
     notes: document.getElementById('o_notes').value.trim(),
   };
-
+ 
   try {
     const res = await fetch(`${API}/api/orders`, {
       method: 'POST',
@@ -662,16 +671,16 @@ async function submitOrder() {
     btn.textContent = T[lang].btn_confirm;
   }
 }
-
+ 
 // ─── NOTIFY ──────────────────────────────────────────────────────────────────
 function openNotify() { openModal('notifyModal'); }
-
+ 
 async function submitNotify() {
   const email = document.getElementById('n_email').value.trim();
   const err   = document.getElementById('notifyErr');
   if (!email || !/\S+@\S+\.\S+/.test(email)) { err.textContent = lang === 'ml' ? 'സാധുവായ ഇമെയിൽ നൽകൂ.' : 'Please enter a valid email.'; return; }
   err.textContent = '';
-
+ 
   try {
     const res = await fetch(`${API}/api/notify`, {
       method: 'POST',
@@ -687,50 +696,50 @@ async function submitNotify() {
     err.textContent = e.message;
   }
 }
-
+ 
 // ─── FIRMWARE DOWNLOAD ────────────────────────────────────────────────────────
 function downloadFirmware() {
   const code = `// Juno.1 Firmware v1.0
 // Teensy 4.0 · USB MIDI MMC Start/Stop for MPC
 // juno-footswitch.com
-
+ 
 const int startPin = 2;
 const int stopPin  = 3;
-
+ 
 bool lastStart = HIGH;
 bool lastStop  = HIGH;
-
+ 
 void setup() {
   pinMode(startPin, INPUT_PULLUP);
   pinMode(stopPin,  INPUT_PULLUP);
 }
-
+ 
 void loop() {
   bool startState = digitalRead(startPin);
   bool stopState  = digitalRead(stopPin);
-
+ 
   // Footswitch 1 — START (MMC PLAY)
   if (startState == LOW && lastStart == HIGH) {
     sendMMC(0x02);   // PLAY
     delay(150);
   }
-
+ 
   // Footswitch 2 — STOP (MMC STOP)
   if (stopState == LOW && lastStop == HIGH) {
     sendMMC(0x01);   // STOP
     delay(150);
   }
-
+ 
   lastStart = startState;
   lastStop  = stopState;
 }
-
+ 
 // Send MIDI Machine Control command via USB MIDI SysEx
 void sendMMC(byte cmd) {
   byte mmcMsg[] = { 0xF0, 0x7F, 0x7F, 0x06, cmd, 0xF7 };
   usbMIDI.sendSysEx(6, mmcMsg);
 }`;
-
+ 
   const blob = new Blob([code], { type: 'text/plain' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
@@ -739,14 +748,14 @@ void sendMMC(byte cmd) {
   URL.revokeObjectURL(a.href);
   showToast('↓ Downloading firmware...');
 }
-
+ 
 // ─── SCROLL REVEAL ────────────────────────────────────────────────────────────
 const io = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'translateY(0)'; }
   });
 }, { threshold: 0.08 });
-
+ 
 document.querySelectorAll('.product-card,.feat-card,.chip,.dl-card,.spec-tile').forEach(el => {
   el.style.opacity = '0';
   el.style.transform = 'translateY(24px)';
@@ -756,3 +765,4 @@ document.querySelectorAll('.product-card,.feat-card,.chip,.dl-card,.spec-tile').
 </script>
 </body>
 </html>
+ 
