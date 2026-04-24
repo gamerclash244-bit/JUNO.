@@ -2,9 +2,9 @@ require('dotenv').config();
 const express   = require('express');
 const mongoose  = require('mongoose');
 const cors      = require('cors');
- 
+
 const app = express();
- 
+
 // ── MIDDLEWARE ──────────────────────────────────────────
 app.use(cors({
   origin: function(origin, callback) {
@@ -24,15 +24,16 @@ app.use(cors({
   credentials: true,
 }));
 app.use(express.json());
- 
+
 // ── ROUTES ──────────────────────────────────────────────
-app.use('/api/admin',  require('./routes/auth'));
+app.use('/api/admin',    require('./routes/auth'));
+app.use('/api/customer',require('./routes/customer'));
 app.use('/api/orders', require('./routes/orders'));
 app.use('/api/notify', require('./routes/notify'));
- 
+
 // health check
 app.get('/api/health', (_, res) => res.json({ status: 'ok', time: new Date() }));
- 
+
 // ── DB + START ──────────────────────────────────────────
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
