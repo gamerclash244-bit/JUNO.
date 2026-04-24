@@ -192,6 +192,48 @@
       .card-top,.card-body{padding:24px 20px}
       .field-row{grid-template-columns:1fr}
     }
+
+    /* ── ORDERS PAGE ──────────────────────────────── */
+    .orders-page{position:fixed;inset:0;background:var(--bg);z-index:150;overflow-y:auto;padding-top:64px;display:none}
+    .orders-page.show{display:block}
+    .orders-inner{max-width:640px;margin:0 auto;padding:52px 24px 80px}
+    .otp-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:40px}
+    .otp-logo{font-family:'Space Mono',monospace;font-weight:700;font-size:1.1rem;margin-bottom:6px}
+    .otp-logo span{color:var(--amber)}
+    .otp-sub{font-size:.85rem;color:var(--muted);margin-bottom:28px}
+    .otp-display{background:var(--amber-soft);border:1px solid rgba(245,166,35,.3);border-radius:var(--rs);padding:14px 18px;margin-bottom:16px;font-size:.85rem;color:var(--amber);line-height:1.5;display:none}
+    .order-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:24px 26px;margin-bottom:16px}
+    .order-card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px}
+    .order-id{font-family:'Space Mono',monospace;font-size:.82rem;color:var(--amber)}
+    .order-date{font-size:.75rem;color:var(--dim)}
+    .order-product{font-family:'Space Mono',monospace;font-weight:700;font-size:1.05rem;margin-bottom:4px}
+    .order-price{font-size:.83rem;color:var(--muted);margin-bottom:16px}
+    .status-timeline{display:flex;flex-direction:column}
+    .st-step{display:flex;align-items:flex-start;gap:12px;padding:5px 0}
+    .st-dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--border);background:var(--bg);flex-shrink:0;margin-top:2px}
+    .st-dot.done{background:var(--amber);border-color:var(--amber)}
+    .st-dot.active{background:var(--amber);border-color:var(--amber);box-shadow:0 0 0 4px var(--amber-glow)}
+    .st-line{width:2px;height:16px;background:var(--border);margin-left:6px}
+    .st-line.done{background:var(--amber)}
+    .st-label{font-size:.82rem;color:var(--muted)}
+    .st-label.done,.st-label.active{color:var(--txt);font-weight:600}
+    .pay-badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    .pay-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:20px;font-size:.72rem;font-weight:700}
+    .pay-badge.paid{background:rgba(34,197,94,.1);color:#4ade80;border:1px solid rgba(34,197,94,.25)}
+    .pay-badge.unpaid{background:var(--s2);color:var(--muted);border:1px solid var(--border)}
+    /* ── PAYMENT STEP ─────────────────────────────── */
+    .pay-option{border:2px solid var(--border);border-radius:var(--r);padding:20px;cursor:pointer;transition:all .2s;margin-bottom:12px}
+    .pay-option:hover{border-color:var(--bhi)}
+    .pay-option.selected{border-color:var(--amber);background:var(--amber-soft)}
+    .pay-option-head{display:flex;align-items:center;gap:12px}
+    .pay-radio{width:18px;height:18px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;transition:all .2s}
+    .pay-option.selected .pay-radio{border-color:var(--amber);background:var(--amber)}
+    .pay-option-title{font-weight:700;font-size:.93rem}
+    .pay-option-sub{font-size:.79rem;color:var(--muted);margin-top:4px;margin-left:30px}
+    .upi-box{background:var(--s2);border:1px solid var(--border);border-radius:var(--rs);padding:16px 18px;margin-top:14px;display:none;text-align:center}
+    .pay-option.selected .upi-box{display:block}
+    .upi-amount{font-family:'Space Mono',monospace;font-weight:700;font-size:1.4rem;color:var(--amber);margin-bottom:6px}
+    .upi-instruction{font-size:.8rem;color:var(--muted);margin-bottom:12px}
   </style>
 </head>
 <body>
@@ -434,30 +476,70 @@
   <div class="modal modal-wrap">
     <button class="modal-close" onclick="closeModal('orderModal')">✕</button>
     <div class="modal-title" id="orderTitle">Order JUNO.1</div>
-    <p class="modal-sub" data-k="modal_sub">Fill in your details and we'll confirm your order within 24 hours.</p>
-    <div class="field-row">
-      <div class="field"><label data-k="lbl_name">Full Name</label><input id="o_name" type="text" placeholder="Your name"/></div>
-      <div class="field"><label data-k="lbl_email">Email</label><input id="o_email" type="email" placeholder="you@email.com"/></div>
+
+    <!-- STEP 1: DETAILS -->
+    <div id="orderStep1">
+      <p class="modal-sub">Fill in your details — phone required to track your order.</p>
+      <div class="field-row">
+        <div class="field"><label>Full Name</label><input id="o_name" type="text" placeholder="Your name"/></div>
+        <div class="field"><label>Email</label><input id="o_email" type="email" placeholder="you@email.com"/></div>
+      </div>
+      <div class="field"><label>Phone <span style="color:#ef4444">*</span></label><input id="o_phone" type="tel" placeholder="+91 9876543210"/></div>
+      <div class="field"><label>Address</label><input id="o_addr" type="text" placeholder="Street / House no."/></div>
+      <div class="field-row">
+        <div class="field"><label>City</label><input id="o_city" type="text" placeholder="City"/></div>
+        <div class="field"><label>State</label><input id="o_state" type="text" placeholder="State"/></div>
+      </div>
+      <div class="field"><label>Pincode</label><input id="o_pin" type="text" placeholder="600001"/></div>
+      <div class="field"><label>Notes (optional)</label><textarea id="o_notes" placeholder="Anything we should know?"></textarea></div>
+      <div class="form-err" id="orderErr1"></div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px" onclick="goToPaymentStep()">Continue to Payment →</button>
     </div>
-    <div class="field"><label data-k="lbl_phone">Phone (optional)</label><input id="o_phone" type="tel" placeholder="+91 9876543210"/></div>
-    <div class="field"><label data-k="lbl_addr">Address</label><input id="o_addr" type="text" placeholder="Street / House no."/></div>
-    <div class="field-row">
-      <div class="field"><label data-k="lbl_city">City</label><input id="o_city" type="text" placeholder="City"/></div>
-      <div class="field"><label data-k="lbl_state">State</label><input id="o_state" type="text" placeholder="State"/></div>
+
+    <!-- STEP 2: PAYMENT -->
+    <div id="orderStep2" style="display:none">
+      <p class="modal-sub" style="margin-bottom:20px">Choose how you'd like to pay the ₹4,000 down payment.</p>
+
+      <div class="pay-option selected" id="payNowOption" onclick="selectPayment('now')">
+        <div class="pay-option-head">
+          <div class="pay-radio" id="radioNow"></div>
+          <div>
+            <div class="pay-option-title">⚡ Pay ₹4,000 now via UPI</div>
+          </div>
+        </div>
+        <div class="pay-option-sub">Production starts immediately after payment is confirmed by us.</div>
+        <div class="upi-box">
+          <div class="upi-amount">₹4,000</div>
+          <div class="upi-instruction">Scan QR or tap the button to pay via GPay / PhonePe / any UPI app</div>
+          <!-- Replace YOUR_UPI_ID below with your actual UPI ID e.g. name@okicici -->
+          <a href="upi://pay?pa=YOUR_UPI_ID&pn=Juno&am=4000&cu=INR" class="btn btn-primary" style="display:inline-flex;margin:0 auto 10px;font-size:.85rem;padding:10px 24px">
+            Open UPI App →
+          </a>
+          <div style="font-size:.74rem;color:var(--dim)">After paying, click "I've Paid" below</div>
+        </div>
+      </div>
+
+      <div class="pay-option" id="payLaterOption" onclick="selectPayment('later')">
+        <div class="pay-option-head">
+          <div class="pay-radio" id="radioLater"></div>
+          <div>
+            <div class="pay-option-title">🕐 Pay later</div>
+          </div>
+        </div>
+        <div class="pay-option-sub">We'll send you the payment link via WhatsApp/call. Production starts after payment.</div>
+      </div>
+
+      <div style="background:var(--s2);border:1px solid var(--border);border-radius:var(--rs);padding:12px 16px;font-size:.79rem;color:var(--muted);line-height:1.6;margin-bottom:16px">
+        🛠 <strong style="color:var(--txt)">Made to order</strong> · Built after your order · Ships in <strong style="color:var(--txt)">10–15 days</strong> · Balance ₹3,999 collected after manufacture
+      </div>
+
+      <div class="form-err" id="orderErr"></div>
+      <div class="form-ok" id="orderOk" style="display:none">✓ Order placed! We'll contact you within 24 hours.</div>
+      <div style="display:flex;gap:10px;margin-top:4px">
+        <button class="btn btn-outline" style="padding:12px 20px;font-size:.85rem" onclick="backToDetails()">← Back</button>
+        <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="submitOrder()" id="orderSubmitBtn">Confirm Order</button>
+      </div>
     </div>
-    <div class="field"><label data-k="lbl_pin">Pincode</label><input id="o_pin" type="text" placeholder="600001"/></div>
-    <div class="field"><label data-k="lbl_notes">Notes (optional)</label><textarea id="o_notes" placeholder="Anything we should know?"></textarea></div>
-    <div class="form-total">
-      <span data-k="total_lbl">Down Payment (Pay Now)</span>
-      <span class="form-total-price" id="orderTotal">₹4,000</span>
-    </div>
-    <div style="background:var(--s2);border:1px solid var(--border);border-radius:var(--rs);padding:12px 18px;margin-bottom:16px;font-size:.82rem;color:var(--muted);line-height:1.6">
-      💡 <strong style="color:var(--txt)">How it works:</strong> Pay ₹4,000 now to confirm your order. The remaining <strong style="color:var(--amber)">₹3,999</strong> is collected after your unit is manufactured.<br>
-      🛠 <strong style="color:var(--txt)">Made to order</strong> — your Juno.1 is built after your order is placed. Estimated delivery: <strong style="color:var(--txt)">10–15 days</strong>.
-    </div>
-    <div class="form-err" id="orderErr"></div>
-    <div class="form-ok" id="orderOk" style="display:none" data-k="order_ok">✓ Order placed! We'll contact you within 24 hours to confirm.</div>
-    <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="submitOrder()" id="orderSubmitBtn" data-k="btn_confirm">Confirm Order</button>
   </div>
 </div>
 
@@ -473,6 +555,56 @@
     <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px" onclick="submitNotify()" data-k="btn_signup">Sign Me Up</button>
   </div>
 </div>
+
+<!-- ORDERS PAGE -->
+<div class="orders-page" id="ordersPage">
+  <div class="orders-inner">
+    <!-- Header -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:32px">
+      <div>
+        <div style="font-family:'Space Mono',monospace;font-weight:700;font-size:1.5rem">JUNO<span style="color:var(--amber)">.</span> Orders</div>
+        <div style="font-size:.83rem;color:var(--muted);margin-top:4px">Track your order status</div>
+      </div>
+      <button class="btn btn-outline" style="padding:10px 20px;font-size:.83rem" onclick="hideOrdersPage()">✕ Close</button>
+    </div>
+
+    <!-- OTP Login (shown when not logged in) -->
+    <div id="customerLoginSection">
+      <div class="otp-box">
+        <div class="otp-logo">Track your order</div>
+        <div class="otp-sub">Enter the phone number you used when placing your order.</div>
+
+        <!-- Step 1: Phone -->
+        <div id="otpStep1">
+          <div class="field"><label>Phone Number</label><input id="t_phone" type="tel" placeholder="+91 9876543210" onkeydown="if(event.key==='Enter')sendOTP()"/></div>
+          <div class="form-err" id="otpErr1" style="margin-bottom:8px"></div>
+          <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="sendOTP()" id="sendOtpBtn">Send OTP</button>
+        </div>
+
+        <!-- Step 2: OTP -->
+        <div id="otpStep2" style="display:none">
+          <div class="otp-display" id="otpDisplay"></div>
+          <div class="field"><label>Enter OTP</label><input id="t_otp" type="text" placeholder="6-digit OTP" maxlength="6" onkeydown="if(event.key==='Enter')verifyOTP()"/></div>
+          <div class="form-err" id="otpErr2" style="margin-bottom:8px"></div>
+          <div style="display:flex;gap:10px">
+            <button class="btn btn-outline" style="padding:12px 20px;font-size:.85rem" onclick="resetOTP()">← Back</button>
+            <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="verifyOTP()" id="verifyOtpBtn">Verify OTP</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Orders List (shown after login) -->
+    <div id="customerOrdersSection" style="display:none">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+        <div style="font-size:.87rem;color:var(--muted)" id="ordersWelcome"></div>
+        <button class="btn btn-outline" style="padding:8px 16px;font-size:.78rem" onclick="logoutCustomer()">Sign Out</button>
+      </div>
+      <div id="customerOrdersList"></div>
+    </div>
+  </div>
+</div>
+
 
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
@@ -617,24 +749,49 @@ document.querySelectorAll('.modal-bg').forEach(bg => {
 
 // ─── ORDER ───────────────────────────────────────────────────────────────────
 let currentOrder = {};
+let selectedPayment = 'now';
 
 function openOrder(product, name, price) {
-  currentOrder = { product, productName: name, price, currency: 'INR' };
+  currentOrder = { product, productName: name, price, currency: 'INR', downPayment: 4000, balance: 3999 };
   document.getElementById('orderTitle').textContent = `Order ${name}`;
-  document.getElementById('orderTotal').textContent = `₹${price.toLocaleString('en-IN')}`;
+  document.getElementById('orderStep1').style.display = 'block';
+  document.getElementById('orderStep2').style.display = 'none';
+  document.getElementById('orderOk').style.display = 'none';
+  document.getElementById('orderErr1').textContent = '';
+  document.getElementById('orderErr').textContent = '';
   document.getElementById('orderSubmitBtn').disabled = false;
-  document.getElementById('orderSubmitBtn').textContent = T[lang].btn_confirm;
+  document.getElementById('orderSubmitBtn').textContent = 'Confirm Order';
+  selectPayment('now');
   openModal('orderModal');
 }
 
-async function submitOrder() {
+function goToPaymentStep() {
   const name  = document.getElementById('o_name').value.trim();
   const email = document.getElementById('o_email').value.trim();
-  const err   = document.getElementById('orderErr');
+  const phone = document.getElementById('o_phone').value.trim();
+  const err   = document.getElementById('orderErr1');
+  if (!name)  { err.textContent = 'Full name is required.'; return; }
+  if (!email || !/\S+@\S+\.\S+/.test(email)) { err.textContent = 'Valid email is required.'; return; }
+  if (!phone) { err.textContent = 'Phone is required to track your order.'; return; }
+  err.textContent = '';
+  document.getElementById('orderStep1').style.display = 'none';
+  document.getElementById('orderStep2').style.display = 'block';
+}
 
-  if (!name || !email) { err.textContent = lang === 'ml' ? 'പേരും ഇമെയിലും ആവശ്യമാണ്.' : 'Name and email are required.'; return; }
-  if (!/\S+@\S+\.\S+/.test(email)) { err.textContent = lang === 'ml' ? 'സാധുവായ ഇമെയിൽ നൽകൂ.' : 'Please enter a valid email.'; return; }
+function backToDetails() {
+  document.getElementById('orderStep1').style.display = 'block';
+  document.getElementById('orderStep2').style.display = 'none';
+}
 
+function selectPayment(type) {
+  selectedPayment = type;
+  document.getElementById('payNowOption').classList.toggle('selected', type === 'now');
+  document.getElementById('payLaterOption').classList.toggle('selected', type === 'later');
+  document.getElementById('orderSubmitBtn').textContent = type === 'now' ? "I've Paid — Confirm Order" : 'Confirm Order';
+}
+
+async function submitOrder() {
+  const err = document.getElementById('orderErr');
   err.textContent = '';
   const btn = document.getElementById('orderSubmitBtn');
   btn.disabled = true;
@@ -642,8 +799,10 @@ async function submitOrder() {
 
   const body = {
     ...currentOrder,
+    paymentIntent: selectedPayment,
     customer: {
-      name, email,
+      name:    document.getElementById('o_name').value.trim(),
+      email:   document.getElementById('o_email').value.trim(),
       phone:   document.getElementById('o_phone').value.trim(),
       address: document.getElementById('o_addr').value.trim(),
       city:    document.getElementById('o_city').value.trim(),
@@ -662,14 +821,164 @@ async function submitOrder() {
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Failed');
     document.getElementById('orderOk').style.display = 'block';
-    document.getElementById('orderOk').textContent = T[lang].order_ok;
     btn.style.display = 'none';
     showToast('✓ Order placed!');
   } catch (e) {
     err.textContent = e.message;
     btn.disabled = false;
-    btn.textContent = T[lang].btn_confirm;
+    btn.textContent = selectedPayment === 'now' ? "I've Paid — Confirm Order" : 'Confirm Order';
   }
+}
+
+// ─── ORDERS PAGE ─────────────────────────────────────────────────────────────
+const STATUS_STEPS = [
+  { key: 'order_placed',            label: 'Order Placed' },
+  { key: 'down_payment_received',   label: 'Down Payment Received' },
+  { key: 'in_production',           label: 'In Production' },
+  { key: 'ready_to_ship',           label: 'Ready to Ship' },
+  { key: 'shipped',                 label: 'Shipped' },
+  { key: 'delivered',               label: 'Delivered' },
+];
+
+function showOrdersPage() {
+  document.getElementById('ordersPage').classList.add('show');
+  const token = localStorage.getItem('junoCustomerToken');
+  if (token) {
+    document.getElementById('customerLoginSection').style.display = 'none';
+    document.getElementById('customerOrdersSection').style.display = 'block';
+    loadCustomerOrders(token);
+  }
+}
+
+function hideOrdersPage() {
+  document.getElementById('ordersPage').classList.remove('show');
+}
+
+function resetOTP() {
+  document.getElementById('otpStep1').style.display = 'block';
+  document.getElementById('otpStep2').style.display = 'none';
+  document.getElementById('otpErr1').textContent = '';
+  document.getElementById('otpErr2').textContent = '';
+  document.getElementById('t_otp').value = '';
+}
+
+async function sendOTP() {
+  const phone = document.getElementById('t_phone').value.trim();
+  const err   = document.getElementById('otpErr1');
+  if (!phone) { err.textContent = 'Please enter your phone number.'; return; }
+  err.textContent = '';
+  const btn = document.getElementById('sendOtpBtn');
+  btn.disabled = true; btn.textContent = '...';
+  try {
+    const res  = await fetch(`${API}/api/customer/send-otp`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ phone }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    document.getElementById('otpStep1').style.display = 'none';
+    document.getElementById('otpStep2').style.display = 'block';
+    // Show OTP on screen (dev mode - will be replaced with SMS later)
+    const display = document.getElementById('otpDisplay');
+    display.style.display = 'block';
+    display.innerHTML = `🔐 Your OTP is: <strong style="font-family:'Space Mono',monospace;font-size:1.2rem;letter-spacing:.1em">${data.otp}</strong><br><span style="font-size:.75rem;opacity:.7">(SMS coming soon — OTP shown here for now)</span>`;
+  } catch(e) {
+    err.textContent = e.message;
+    btn.disabled = false; btn.textContent = 'Send OTP';
+  }
+}
+
+async function verifyOTP() {
+  const phone = document.getElementById('t_phone').value.trim();
+  const otp   = document.getElementById('t_otp').value.trim();
+  const err   = document.getElementById('otpErr2');
+  if (!otp) { err.textContent = 'Please enter the OTP.'; return; }
+  err.textContent = '';
+  const btn = document.getElementById('verifyOtpBtn');
+  btn.disabled = true; btn.textContent = '...';
+  try {
+    const res  = await fetch(`${API}/api/customer/verify-otp`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ phone, otp }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    localStorage.setItem('junoCustomerToken', data.token);
+    document.getElementById('customerLoginSection').style.display = 'none';
+    document.getElementById('customerOrdersSection').style.display = 'block';
+    loadCustomerOrders(data.token);
+  } catch(e) {
+    err.textContent = e.message;
+    btn.disabled = false; btn.textContent = 'Verify OTP';
+  }
+}
+
+async function loadCustomerOrders(token) {
+  const container = document.getElementById('customerOrdersList');
+  container.innerHTML = '<div style="color:var(--muted);padding:20px 0">Loading your orders...</div>';
+  document.getElementById('ordersWelcome').textContent = '';
+  try {
+    const res  = await fetch(`${API}/api/customer/orders`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    if (!data.orders.length) { container.innerHTML = '<div style="color:var(--muted);padding:20px 0">No orders found.</div>'; return; }
+    document.getElementById('ordersWelcome').textContent = `${data.orders.length} order${data.orders.length > 1 ? 's' : ''} found`;
+    container.innerHTML = data.orders.map(renderOrderCard).join('');
+  } catch(e) {
+    if (e.message.includes('expired')) {
+      localStorage.removeItem('junoCustomerToken');
+      document.getElementById('customerLoginSection').style.display = 'block';
+      document.getElementById('customerOrdersSection').style.display = 'none';
+    }
+    container.innerHTML = `<div style="color:#ef4444;padding:20px 0">${e.message}</div>`;
+  }
+}
+
+function renderOrderCard(o) {
+  const statusIdx = STATUS_STEPS.findIndex(s => s.key === o.status);
+  const isCancelled = o.status === 'cancelled';
+  const timeline = STATUS_STEPS.map((s, i) => {
+    const done   = !isCancelled && i < statusIdx;
+    const active = !isCancelled && i === statusIdx;
+    const isLast = i === STATUS_STEPS.length - 1;
+    return `
+      <div class="st-step">
+        <div style="display:flex;flex-direction:column;align-items:center">
+          <div class="st-dot ${done||active?'done':''} ${active?'active':''}"></div>
+          ${!isLast ? `<div class="st-line ${done?'done':''}"></div>` : ''}
+        </div>
+        <div class="st-label ${done?'done':''} ${active?'active':''}" style="padding-top:0">${s.label}${active?' ← You are here':''}</div>
+      </div>`;
+  }).join('');
+
+  const downBadge = o.downPaymentPaid
+    ? '<span class="pay-badge paid">✓ Down Payment Paid</span>'
+    : '<span class="pay-badge unpaid">⏳ Down Payment Pending</span>';
+  const balBadge = o.balancePaid
+    ? '<span class="pay-badge paid">✓ Balance Paid</span>'
+    : '<span class="pay-badge unpaid">⏳ Balance Pending</span>';
+
+  return `
+    <div class="order-card">
+      <div class="order-card-head">
+        <span class="order-id">#${o._id.slice(-6).toUpperCase()}</span>
+        <span class="order-date">${new Date(o.createdAt).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}</span>
+      </div>
+      <div class="order-product">${o.productName}</div>
+      <div class="order-price">Total ₹${(o.price||7999).toLocaleString('en-IN')} · Down ₹${(o.downPayment||4000).toLocaleString('en-IN')} · Balance ₹${(o.balance||3999).toLocaleString('en-IN')}</div>
+      ${isCancelled ? '<div style="color:#ef4444;font-weight:600;margin-bottom:12px">✕ Order Cancelled</div>' : `<div class="status-timeline">${timeline}</div>`}
+      ${o.trackingNumber ? `<div style="margin-top:12px;font-size:.8rem;color:var(--muted)">🚚 Tracking: <strong style="color:var(--txt)">${o.trackingNumber}</strong></div>` : ''}
+      <div class="pay-badges">${downBadge}${balBadge}</div>
+    </div>`;
+}
+
+function logoutCustomer() {
+  localStorage.removeItem('junoCustomerToken');
+  document.getElementById('customerLoginSection').style.display = 'block';
+  document.getElementById('customerOrdersSection').style.display = 'none';
+  resetOTP();
 }
 
 // ─── NOTIFY ──────────────────────────────────────────────────────────────────
