@@ -71,6 +71,19 @@
     .s-shipped{background:rgba(14,165,233,.12);color:#38bdf8;border:1px solid rgba(14,165,233,.25)}
     .s-delivered{background:rgba(34,197,94,.12);color:#4ade80;border:1px solid rgba(34,197,94,.25)}
     .s-cancelled{background:rgba(239,68,68,.12);color:#f87171;border:1px solid rgba(239,68,68,.25)}
+    .s-order_placed{background:rgba(245,166,35,.12);color:#F5A623;border:1px solid rgba(245,166,35,.25)}
+    .s-down_payment_received{background:rgba(99,102,241,.12);color:#818cf8;border:1px solid rgba(99,102,241,.25)}
+    .s-in_production{background:rgba(168,85,247,.12);color:#c084fc;border:1px solid rgba(168,85,247,.25)}
+    .s-ready_to_ship{background:rgba(6,182,212,.12);color:#22d3ee;border:1px solid rgba(6,182,212,.25)}
+    .s-shipped{background:rgba(14,165,233,.12);color:#38bdf8;border:1px solid rgba(14,165,233,.25)}
+    .s-delivered{background:rgba(34,197,94,.12);color:#4ade80;border:1px solid rgba(34,197,94,.25)}
+    .s-balance_payment_received{background:rgba(16,185,129,.12);color:#34d399;border:1px solid rgba(16,185,129,.25)}
+    /* ── PAYMENT CHECKBOXES ── */
+    .pay-check{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--s2,#161616);border:1px solid var(--border,rgba(255,255,255,.07));border-radius:10px;margin-bottom:8px;cursor:pointer;transition:border-color .2s}
+    .pay-check:hover{border-color:rgba(245,166,35,.3)}
+    .pay-check input[type=checkbox]{width:18px;height:18px;accent-color:var(--amber);cursor:pointer;flex-shrink:0}
+    .pay-check-lbl{font-size:.87rem;font-weight:500}
+    .pay-check-sub{font-size:.75rem;color:var(--muted,rgba(238,238,238,.45));margin-top:1px}
     .actions{display:flex;gap:6px}
     .empty{padding:48px;text-align:center;color:var(--muted,rgba(238,238,238,.45));font-size:.88rem}
     .loading{padding:48px;text-align:center;color:var(--muted,rgba(238,238,238,.45))}
@@ -154,8 +167,9 @@
         <div class="table-toolbar">
           <input class="tbl-search" id="orderSearch" placeholder="Search name or email..." oninput="filterOrders()"/>
           <button class="filter-btn active" onclick="setFilter('')" id="f-all">All</button>
-          <button class="filter-btn" onclick="setFilter('pending')" id="f-pending">Pending</button>
-          <button class="filter-btn" onclick="setFilter('confirmed')" id="f-confirmed">Confirmed</button>
+          <button class="filter-btn" onclick="setFilter('order_placed')" id="f-order_placed">Placed</button>
+          <button class="filter-btn" onclick="setFilter('down_payment_received')" id="f-down_payment_received">Paid</button>
+          <button class="filter-btn" onclick="setFilter('in_production')" id="f-in_production">Production</button>
           <button class="filter-btn" onclick="setFilter('shipped')" id="f-shipped">Shipped</button>
           <button class="filter-btn" onclick="setFilter('delivered')" id="f-delivered">Delivered</button>
         </div>
@@ -192,7 +206,7 @@
 </div>
 
 <script>
-const API = 'https://juno-api-rxtk.onrender.com'; // ← update this
+const API = 'https://juno-api-rxtk.onrender.com';
 let token = localStorage.getItem('junoAdminToken');
 let allOrders = [];
 let filterStatus = '';
@@ -274,8 +288,9 @@ async function loadOrders() {
 
 function setFilter(status) {
   filterStatus = status;
-  ['all','pending','confirmed','shipped','delivered'].forEach(s => {
-    document.getElementById('f-'+s).classList.toggle('active', (s === 'all' && !status) || s === status);
+  ['all','order_placed','down_payment_received','in_production','shipped','delivered'].forEach(s => {
+    const el = document.getElementById('f-'+s);
+    if (el) el.classList.toggle('active', (s === 'all' && !status) || s === status);
   });
   loadOrders();
 }
@@ -292,14 +307,17 @@ function filterOrders() {
 
 function renderOrders(orders) {
   if (!orders.length) { document.getElementById('ordersTable').innerHTML = '<div class="empty">No orders found</div>'; return; }
+  const statusLabel = s => s.replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
   const rows = orders.map(o => `
     <tr>
       <td><code style="font-size:.72rem;color:var(--amber)">#${o._id.slice(-6).toUpperCase()}</code></td>
       <td>${o.customer?.name || '—'}</td>
-      <td style="color:var(--muted,rgba(238,238,238,.45))">${o.customer?.email || '—'}</td>
+      <td style="color:var(--muted,rgba(238,238,238,.45));font-size:.8rem">${o.customer?.phone || '—'}</td>
       <td>${o.productName || o.product}</td>
       <td style="font-family:'Space Mono',monospace">₹${(o.price||0).toLocaleString('en-IN')}</td>
-      <td><span class="status-badge s-${o.status}">${o.status}</span></td>
+      <td style="text-align:center">${o.downPaymentPaid ? '<span style="color:#4ade80;font-size:1.1rem">✓</span>' : '<span style="color:var(--muted,rgba(238,238,238,.45))">—</span>'}</td>
+      <td style="text-align:center">${o.balancePaid ? '<span style="color:#4ade80;font-size:1.1rem">✓</span>' : '<span style="color:var(--muted,rgba(238,238,238,.45))">—</span>'}</td>
+      <td><span class="status-badge s-${o.status}">${statusLabel(o.status)}</span></td>
       <td style="color:var(--muted,rgba(238,238,238,.45));font-size:.78rem">${new Date(o.createdAt).toLocaleDateString('en-IN')}</td>
       <td><div class="actions">
         <button class="btn btn-ghost btn-sm" onclick="openDrawer('${o._id}')">View</button>
@@ -309,7 +327,7 @@ function renderOrders(orders) {
   `).join('');
   document.getElementById('ordersTable').innerHTML = `
     <table>
-      <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Product</th><th>Price</th><th>Status</th><th>Date</th><th></th></tr></thead>
+      <thead><tr><th>ID</th><th>Name</th><th>Phone</th><th>Product</th><th>Price</th><th>Down Paid</th><th>Balance Paid</th><th>Status</th><th>Date</th><th></th></tr></thead>
       <tbody>${rows}</tbody>
     </table>`;
 }
@@ -340,9 +358,30 @@ async function openDrawer(id) {
       ${infoRow('Placed', new Date(o.createdAt).toLocaleString('en-IN'))}
       ${o.notes ? infoRow('Notes', o.notes) : ''}
 
-      <div class="section-sep">Update Status</div>
+      <div class="section-sep">Payment Status</div>
+      <label class="pay-check" onclick="togglePayment('${o._id}','downPaymentPaid',${o.downPaymentPaid})">
+        <input type="checkbox" id="d_down" ${o.downPaymentPaid?'checked':''} onclick="event.stopPropagation();togglePayment('${o._id}','downPaymentPaid',this.checked)"/>
+        <div><div class="pay-check-lbl">Down Payment Received (₹${(o.downPayment||4000).toLocaleString('en-IN')})</div>
+        <div class="pay-check-sub">Tick when customer has paid the down payment</div></div>
+      </label>
+      <label class="pay-check" onclick="togglePayment('${o._id}','balancePaid',${o.balancePaid})">
+        <input type="checkbox" id="d_bal" ${o.balancePaid?'checked':''} onclick="event.stopPropagation();togglePayment('${o._id}','balancePaid',this.checked)"/>
+        <div><div class="pay-check-lbl">Balance Payment Received (₹${(o.balance||3999).toLocaleString('en-IN')})</div>
+        <div class="pay-check-sub">Tick when remaining balance is paid</div></div>
+      </label>
+
+      <div class="section-sep">Order Status</div>
       <select class="edit-select" id="d_status" onchange="updateOrder('${o._id}')">
-        ${['pending','confirmed','shipped','delivered','cancelled'].map(s => `<option value="${s}" ${o.status===s?'selected':''}>${s.charAt(0).toUpperCase()+s.slice(1)}</option>`).join('')}
+        ${[
+          ['order_placed','Order Placed'],
+          ['down_payment_received','Down Payment Received'],
+          ['in_production','In Production'],
+          ['ready_to_ship','Ready to Ship'],
+          ['shipped','Shipped'],
+          ['delivered','Delivered'],
+          ['balance_payment_received','Balance Payment Received'],
+          ['cancelled','Cancelled'],
+        ].map(([v,l]) => `<option value="${v}" ${o.status===v?'selected':''}>${l}</option>`).join('')}
       </select>
 
       <div class="section-sep">Tracking Number</div>
@@ -381,6 +420,21 @@ async function updateOrder(id, showMsg) {
 }
 
 function closeDrawer() { document.getElementById('drawerBg').classList.remove('open'); }
+
+async function togglePayment(id, field, value) {
+  try {
+    const res = await fetch(`${API}/api/orders/${id}`, {
+      method:'PATCH', headers: authHeaders(),
+      body: JSON.stringify({ [field]: value }),
+    });
+    if (!res.ok) throw new Error('Update failed');
+    if (document.getElementById('drawerMsg')) {
+      document.getElementById('drawerMsg').textContent = '✓ Payment status updated';
+      setTimeout(() => { if(document.getElementById('drawerMsg')) document.getElementById('drawerMsg').textContent=''; }, 2000);
+    }
+    loadOrders(); loadStats();
+  } catch(e) { console.error(e); }
+}
 
 // ─── NOTIFY / WAITLIST ─────────────────────────────────────────────────────
 async function loadNotify() {
