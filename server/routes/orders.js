@@ -3,25 +3,45 @@ const { Order } = require('../models');
 const authMiddleware = require('../middleware/auth');
 
 // ── PUBLIC: place an order ───────────────────────────────
-// POST /api/orders
 router.post('/', async (req, res) => {
   try {
-    const { product, productName, price, currency, customer, notes } = req.body;
-    if (!product || !customer?.name || !customer?.email) {
-      return res.status(400).json({ error: 'Missing required fields' });
+    const { product, productName, price, currency, customer, notes, paymentIntent, downPayment, balance } = req.body;
+    if (!product || !customer?.name || !customer?.email || !customer?.phone) {
+      return res.status(400).json({ error: 'Name, email and phone are required' });
     }
-    const order = await Order.create({ product, productName, price, currency, customer, notes });
+    const order = await Order.create({
+      product, productName, price, currency, customer, notes,
+      paymentIntent: paymentIntent || 'later',
+      downPayment: downPayment || 4000,
+      balance: balance || 3999,
+    });
     res.status(201).json({ success: true, orderId: order._id });
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
 });
 
+// ── ADMIN: stats ─────────────────────────────────────────
+router.get('/meta/stats', authMiddleware, async (req, res) => {
+  try {
+    const statuses = ['order_placed','down_payment_received','in_production','ready_to_ship','shipped','delivered','balance_payment_received','cancelled'];
+    const counts = await Promise.all(statuses.map(s => Order.countDocuments({ status: s })));
+    const total = await Order.countDocuments();
+    const downPaidCount = await Order.countDocuments({ downPaymentPaid: true });
+    const balancePaidCount = await Order.countDocuments({ balancePaid: true });
+    const revenue = await Order.aggregate([{ $group: { _id: null, total: { $sum: '$price' } } }]);
+    const result = { total, downPaidCount, balancePaidCount, revenue: revenue[0]?.total || 0 };
+    statuses.forEach((s, i) => { result[s] = counts[i]; });
+    res.json(result);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
 // ── ADMIN: list all orders ───────────────────────────────
-// GET /api/orders  (auth required)
 router.get('/', authMiddleware, async (req, res) => {
   try {
-    const { status, page = 1, limit = 20 } = req.query;
+    const { status, page = 1, limit = 100 } = req.query;
     const filter = status ? { status } : {};
     const [orders, total] = await Promise.all([
       Order.find(filter).sort({ createdAt: -1 }).skip((page-1)*limit).limit(Number(limit)),
@@ -33,8 +53,7 @@ router.get('/', authMiddleware, async (req, res) => {
   }
 });
 
-// ── ADMIN: get single order ─────────────────────────────
-// GET /api/orders/:id
+// ── ADMIN: get single order ──────────────────────────────
 router.get('/:id', authMiddleware, async (req, res) => {
   try {
     const order = await Order.findById(req.params.id);
@@ -45,16 +64,18 @@ router.get('/:id', authMiddleware, async (req, res) => {
   }
 });
 
-// ── ADMIN: update order status / tracking ──────────────
-// PATCH /api/orders/:id
+// ── ADMIN: update order ──────────────────────────────────
 router.patch('/:id', authMiddleware, async (req, res) => {
   try {
-    const { status, trackingNumber, notes } = req.body;
-    const order = await Order.findByIdAndUpdate(
-      req.params.id,
-      { ...(status && { status }), ...(trackingNumber && { trackingNumber }), ...(notes !== undefined && { notes }) },
-      { new: true }
-    );
+    const { status, trackingNumber, notes, downPaymentPaid, balancePaid } = req.body;
+    const update = {
+      ...(status !== undefined && { status }),
+      ...(trackingNumber !== undefined && { trackingNumber }),
+      ...(notes !== undefined && { notes }),
+      ...(downPaymentPaid !== undefined && { downPaymentPaid }),
+      ...(balancePaid !== undefined && { balancePaid }),
+    };
+    const order = await Order.findByIdAndUpdate(req.params.id, update, { new: true });
     if (!order) return res.status(404).json({ error: 'Not found' });
     res.json(order);
   } catch (e) {
@@ -63,30 +84,10 @@ router.patch('/:id', authMiddleware, async (req, res) => {
 });
 
 // ── ADMIN: delete order ──────────────────────────────────
-// DELETE /api/orders/:id
 router.delete('/:id', authMiddleware, async (req, res) => {
   try {
     await Order.findByIdAndDelete(req.params.id);
     res.json({ success: true });
-  } catch (e) {
-    res.status(500).json({ error: e.message });
-  }
-});
-
-// ── ADMIN: stats summary ─────────────────────────────────
-// GET /api/orders/meta/stats
-router.get('/meta/stats', authMiddleware, async (req, res) => {
-  try {
-    const [total, pending, confirmed, shipped, delivered, cancelled, revenue] = await Promise.all([
-      Order.countDocuments(),
-      Order.countDocuments({ status: 'pending' }),
-      Order.countDocuments({ status: 'confirmed' }),
-      Order.countDocuments({ status: 'shipped' }),
-      Order.countDocuments({ status: 'delivered' }),
-      Order.countDocuments({ status: 'cancelled' }),
-      Order.aggregate([{ $group: { _id: null, total: { $sum: '$price' } } }]),
-    ]);
-    res.json({ total, pending, confirmed, shipped, delivered, cancelled, revenue: revenue[0]?.total || 0 });
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
